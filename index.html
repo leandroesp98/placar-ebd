@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Placar EBD</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Segoe UI', sans-serif; background: #0f172a; color: #e2e8f0; min-height: 100vh; }
+    header { background: linear-gradient(135deg, #1e40af, #7c3aed); padding: 24px; text-align: center; }
+    header h1 { font-size: 2rem; font-weight: 800; letter-spacing: 1px; }
+    header p { color: #bfdbfe; margin-top: 4px; }
+    .container { max-width: 900px; margin: 0 auto; padding: 24px 16px; }
+    .card { background: #1e293b; border-radius: 16px; padding: 24px; margin-bottom: 24px; border: 1px solid #334155; }
+    .card h2 { font-size: 1.1rem; font-weight: 700; color: #93c5fd; margin-bottom: 16px; }
+    .form-row { display: flex; gap: 12px; flex-wrap: wrap; }
+    input, select { background: #0f172a; border: 1px solid #475569; border-radius: 8px; color: #e2e8f0; padding: 10px 14px; font-size: 0.95rem; flex: 1; min-width: 140px; }
+    input:focus, select:focus { outline: 2px solid #3b82f6; border-color: #3b82f6; }
+    button { padding: 10px 20px; border: none; border-radius: 8px; font-weight: 700; cursor: pointer; font-size: 0.95rem; transition: opacity 0.2s; }
+    button:hover { opacity: 0.85; }
+    .btn-primary { background: #3b82f6; color: white; }
+    .btn-success { background: #10b981; color: white; }
+    .btn-danger { background: #ef4444; color: white; font-size: 0.8rem; padding: 6px 12px; }
+    .ranking { list-style: none; }
+    .ranking li { display: flex; align-items: center; gap: 16px; background: #0f172a; border-radius: 12px; padding: 14px 18px; margin-bottom: 10px; border: 1px solid #334155; transition: transform 0.2s; }
+    .ranking li:hover { transform: translateX(4px); }
+    .ranking li.top1 { border-color: #fbbf24; background: #1c1a00; }
+    .ranking li.top2 { border-color: #94a3b8; background: #111827; }
+    .ranking li.top3 { border-color: #b45309; background: #1a1200; }
+    .pos { font-size: 1.5rem; font-weight: 900; min-width: 36px; text-align: center; }
+    .top1 .pos { color: #fbbf24; }
+    .top2 .pos { color: #94a3b8; }
+    .top3 .pos { color: #b45309; }
+    .info { flex: 1; }
+    .info .nome { font-weight: 700; font-size: 1rem; }
+    .info .turma { font-size: 0.8rem; color: #64748b; }
+    .estrelas { font-size: 1.2rem; letter-spacing: 2px; }
+    .pts { font-weight: 900; font-size: 1.3rem; color: #fbbf24; min-width: 48px; text-align: right; }
+    .historico { max-height: 220px; overflow-y: auto; }
+    .hist-item { display: flex; justify-content: space-between; padding: 8px 12px; border-bottom: 1px solid #1e293b; font-size: 0.88rem; }
+    .hist-item:last-child { border-bottom: none; }
+    .hist-nome { color: #93c5fd; font-weight: 600; }
+    .hist-data { color: #475569; }
+    .hist-pts { color: #fbbf24; font-weight: 700; }
+    .empty { text-align: center; color: #475569; padding: 32px; }
+    .stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 12px; margin-bottom: 24px; }
+    .stat-card { background: #1e293b; border-radius: 12px; padding: 16px; text-align: center; border: 1px solid #334155; }
+    .stat-card .val { font-size: 2rem; font-weight: 900; color: #3b82f6; }
+    .stat-card .lbl { font-size: 0.8rem; color: #64748b; margin-top: 4px; }
+    .turma-badge { background: #1e3a5f; color: #93c5fd; border-radius: 20px; padding: 2px 10px; font-size: 0.75rem; display: inline-block; margin-top: 2px; }
+  </style>
+</head>
+<body>
+<header>
+  <h1>⭐ Placar EBD</h1>
+  <p>Escola Bíblica Dominical — Ranking de Duplas</p>
+</header>
+<div class="container">
+
+  <div class="stats">
+    <div class="stat-card"><div class="val" id="totalDuplas">0</div><div class="lbl">Duplas</div></div>
+    <div class="stat-card"><div class="val" id="totalPontos">0</div><div class="lbl">Pontos distribuídos</div></div>
+    <div class="stat-card"><div class="val" id="totalDomingos">0</div><div class="lbl">Domingos registrados</div></div>
+  </div>
+
+  <div class="card">
+    <h2>➕ Cadastrar Dupla</h2>
+    <div class="form-row">
+      <input id="nomeDupla" type="text" placeholder="Nome da dupla (ex: João e Maria)" />
+      <input id="turma" type="text" placeholder="Turma (ex: Adultos)" />
+      <button class="btn-primary" onclick="cadastrarDupla()">Cadastrar</button>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>🌟 Registrar Pontos</h2>
+    <div class="form-row">
+      <select id="selectDupla"><option value="">Selecione a dupla...</option></select>
+      <input id="qtdPontos" type="number" min="1" max="10" placeholder="Estrelinhas (1-10)" />
+      <input id="atividade" type="text" placeholder="Atividade / motivo" />
+      <button class="btn-success" onclick="registrarPontos()">Adicionar ⭐</button>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>🏆 Ranking</h2>
+    <ul class="ranking" id="ranking"><li class="empty">Nenhuma dupla cadastrada ainda.</li></ul>
+  </div>
+
+  <div class="card">
+    <h2>📋 Histórico de Lançamentos</h2>
+    <div class="historico" id="historico"><div class="empty">Nenhum lançamento ainda.</div></div>
+  </div>
+
+</div>
+<script>
+  let duplas = JSON.parse(localStorage.getItem('ebd_duplas') || '[]');
+  let historico = JSON.parse(localStorage.getItem('ebd_historico') || '[]');
+
+  function salvar() {
+    localStorage.setItem('ebd_duplas', JSON.stringify(duplas));
+    localStorage.setItem('ebd_historico', JSON.stringify(historico));
+  }
+
+  function cadastrarDupla() {
+    const nome = document.getElementById('nomeDupla').value.trim();
+    const turma = document.getElementById('turma').value.trim();
+    if (!nome) { alert('Digite o nome da dupla!'); return; }
+    if (duplas.find(d => d.nome.toLowerCase() === nome.toLowerCase())) { alert('Dupla já cadastrada!'); return; }
+    duplas.push({ id: Date.now(), nome, turma: turma || 'Geral', pontos: 0 });
+    salvar();
+    document.getElementById('nomeDupla').value = '';
+    document.getElementById('turma').value = '';
+    renderizar();
+  }
+
+  function registrarPontos() {
+    const id = parseInt(document.getElementById('selectDupla').value);
+    const pts = parseInt(document.getElementById('qtdPontos').value);
+    const ativ = document.getElementById('atividade').value.trim();
+    if (!id) { alert('Selecione uma dupla!'); return; }
+    if (!pts || pts < 1) { alert('Informe a quantidade de estrelinhas!'); return; }
+    const dupla = duplas.find(d => d.id === id);
+    if (!dupla) return;
+    dupla.pontos += pts;
+    historico.unshift({ dupla: dupla.nome, pts, atividade: ativ || 'Atividade do domingo', data: new Date().toLocaleDateString('pt-BR') });
+    salvar();
+    document.getElementById('selectDupla').value = '';
+    document.getElementById('qtdPontos').value = '';
+    document.getElementById('atividade').value = '';
+    renderizar();
+  }
+
+  function renderizar() {
+    const sorted = [...duplas].sort((a, b) => b.pontos - a.pontos);
+
+    // Stats
+    const domingos = new Set(historico.map(h => h.data)).size;
+    document.getElementById('totalDuplas').textContent = duplas.length;
+    document.getElementById('totalPontos').textContent = duplas.reduce((s, d) => s + d.pontos, 0);
+    document.getElementById('totalDomingos').textContent = domingos;
+
+    // Select
+    const sel = document.getElementById('selectDupla');
+    sel.innerHTML = '<option value="">Selecione a dupla...</option>';
+    duplas.forEach(d => sel.innerHTML += `<option value="${d.id}">${d.nome} (${d.turma})</option>`);
+
+    // Ranking
+    const rank = document.getElementById('ranking');
+    if (sorted.length === 0) { rank.innerHTML = '<li class="empty">Nenhuma dupla cadastrada ainda.</li>'; }
+    else {
+      const medalhas = ['🥇', '🥈', '🥉'];
+      rank.innerHTML = sorted.map((d, i) => {
+        const cls = i === 0 ? 'top1' : i === 1 ? 'top2' : i === 2 ? 'top3' : '';
+        const pos = i < 3 ? medalhas[i] : `${i+1}º`;
+        const estrelas = '⭐'.repeat(Math.min(d.pontos, 10)) + (d.pontos > 10 ? ` +${d.pontos - 10}` : '');
+        return `<li class="${cls}">
+          <span class="pos">${pos}</span>
+          <div class="info">
+            <div class="nome">${d.nome}</div>
+            <span class="turma-badge">${d.turma}</span>
+          </div>
+          <div class="estrelas">${estrelas}</div>
+          <div class="pts">${d.pontos} pts</div>
+          <button class="btn-danger" onclick="remover(${d.id})">✕</button>
+        </li>`;
+      }).join('');
+    }
+
+    // Histórico
+    const hist = document.getElementById('historico');
+    if (historico.length === 0) { hist.innerHTML = '<div class="empty">Nenhum lançamento ainda.</div>'; }
+    else {
+      hist.innerHTML = historico.slice(0, 50).map(h => `
+        <div class="hist-item">
+          <span class="hist-nome">${h.dupla}</span>
+          <span>${h.atividade}</span>
+          <span class="hist-pts">+${h.pts} ⭐</span>
+          <span class="hist-data">${h.data}</span>
+        </div>`).join('');
+    }
+  }
+
+  function remover(id) {
+    if (!confirm('Remover esta dupla?')) return;
+    duplas = duplas.filter(d => d.id !== id);
+    salvar();
+    renderizar();
+  }
+
+  renderizar();
+</script>
+</body>
+</html>
