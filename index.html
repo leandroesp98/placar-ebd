@@ -52,7 +52,7 @@
     .stat-card .val { font-size: 2rem; font-weight: 900; color: #3b82f6; }
     .stat-card .lbl { font-size: 0.8rem; color: #64748b; margin-top: 4px; }
     .turma-badge { background: #1e3a5f; color: #93c5fd; border-radius: 20px; padding: 2px 10px; font-size: 0.75rem; display: inline-block; margin-top: 2px; }
-    
+
     /* Login modal */
     .modal { display: none; position: fixed; z-index: 9999; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); align-items: center; justify-content: center; }
     .modal.show { display: flex; }
@@ -66,203 +66,219 @@
 </head>
 <body>
 
-<di vid="loginModal" class="modal show">
+<!-- CORREÇÃO 1: "di" corrigido para "div", e tag de fechamento </div> adicionada antes de #app -->
+<div id="loginModal" class="modal show">
   <div class="modal-content">
     <h2>🔐 Login de Professor</h2>
     <input id="loginEmail" type="email" placeholder="Email" />
     <input id="loginSenha" type="password" placeholder="Senha" />
     <button class="btn-primary" onclick="fazerLogin()">Entrar</button>
     <p style="color: #64748b; font-size: 0.8rem; margin-top: 16px;">Visitantes podem visualizar o placar sem fazer login.</p>
-            <button class="btn-success" style="margin-top: 8px;" onclick="acessarSomenteLeitura()">Ver apenas</button>
-      </div>
-iv id="app">
-<header>
-  <h1>⭐ Placar EBD</h1>
-  <p>Escola Bíblica Dominical — Ranking de Duplas</p>
-  <div class="user-info" id="userInfo" style="display: none;">
-    <span id="userEmail"></span>
-    <button class="btn-logout" onclick="logout()">Sair</button>
+    <button class="btn-success" style="margin-top: 8px;" onclick="acessarSomenteLeitura()">Ver apenas</button>
   </div>
-</header>
-<div class="container">
-
-  <div class="stats">
-    <div class="stat-card"><div class="val" id="totalDuplas">0</div><div class="lbl">Duplas</div></div>
-    <div class="stat-card"><div class="val" id="totalPontos">0</div><div class="lbl">Pontos distribuídos</div></div>
-    <div class="stat-card"><div class="val" id="totalDomingos">0</div><div class="lbl">Domingos registrados</div></div>
-  </div>
-
-  <div class="card" id="cardCadastro" style="display: none;">
-    <h2>➕ Cadastrar Dupla</h2>
-    <div class="form-row">
-      <input id="nomeDupla" type="text" placeholder="Nome da dupla (ex: João e Maria)" />
-      <input id="turma" type="text" placeholder="Turma (ex: Adultos)" />
-      <button class="btn-primary" onclick="cadastrarDupla()">Cadastrar</button>
-    </div>
-  </div>
-
-  <div class="card" id="cardPontos" style="display: none;">
-    <h2>🌟 Registrar Pontos</h2>
-    <div class="form-row">
-      <select id="selectDupla"><option value="">Selecione a dupla...</option></select>
-      <input id="qtdPontos" type="number" min="1" max="10" placeholder="Estrelinhas (1-10)" />
-      <input id="atividade" type="text" placeholder="Atividade / motivo" />
-      <button class="btn-success" onclick="registrarPontos()">Adicionar ⭐</button>
-    </div>
-  </div>
-
-  <div class="card">
-    <h2>🏆 Ranking</h2>
-    <ul class="ranking" id="ranking"><li class="empty">Carregando...</li></ul>
-  </div>
-
-  <div class="card">
-    <h2>📋 Histórico de Lançamentos</h2>
-    <div class="historico" id="historico"><div class="empty">Carregando...</div></div>
-  </div>
-
 </div>
+
+<!-- CORREÇÃO 1 (cont.): "<d" e "iv id" corrigidos para "<div id" -->
+<div id="app">
+  <header>
+    <h1>⭐ Placar EBD</h1>
+    <p>Escola Bíblica Dominical — Ranking de Duplas</p>
+    <div class="user-info" id="userInfo" style="display: none;">
+      <span id="userEmail"></span>
+      <button class="btn-logout" onclick="logout()">Sair</button>
+    </div>
+  </header>
+  <div class="container">
+
+    <div class="stats">
+      <div class="stat-card"><div class="val" id="totalDuplas">0</div><div class="lbl">Duplas</div></div>
+      <div class="stat-card"><div class="val" id="totalPontos">0</div><div class="lbl">Pontos distribuídos</div></div>
+      <div class="stat-card"><div class="val" id="totalDomingos">0</div><div class="lbl">Domingos registrados</div></div>
+    </div>
+
+    <div class="card" id="cardCadastro" style="display: none;">
+      <h2>➕ Cadastrar Dupla</h2>
+      <div class="form-row">
+        <input id="nomeDupla" type="text" placeholder="Nome da dupla (ex: João e Maria)" />
+        <input id="turma" type="text" placeholder="Turma (ex: Adultos)" />
+        <button class="btn-primary" onclick="cadastrarDupla()">Cadastrar</button>
+      </div>
+    </div>
+
+    <div class="card" id="cardPontos" style="display: none;">
+      <h2>🌟 Registrar Pontos</h2>
+      <div class="form-row">
+        <select id="selectDupla"><option value="">Selecione a dupla...</option></select>
+        <input id="qtdPontos" type="number" min="1" max="10" placeholder="Estrelinhas (1-10)" />
+        <input id="atividade" type="text" placeholder="Atividade / motivo" />
+        <button class="btn-success" onclick="registrarPontos()">Adicionar ⭐</button>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>🏆 Ranking</h2>
+      <ul class="ranking" id="ranking"><li class="empty">Carregando...</li></ul>
+    </div>
+
+    <div class="card">
+      <h2>📋 Histórico de Lançamentos</h2>
+      <div class="historico" id="historico"><div class="empty">Carregando...</div></div>
+    </div>
+
+  </div>
 </div>
 
 <script>
-const SUPABASE_URL = 'https://kptapfyqyyvfwdrqrean.supabase.co';
-const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImtwdGFwZnlxeXl2ZndkcnFyZWFuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODE2NDAxMDMsImV4cCI6MjA5NzIxNjEwM30.hV8RO0eWnIsKVf6xoOQCpuDwKDoGF8Cd438mho8EK4Y';
-const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+  const SUPABASE_URL = 'https://kptapfyqyyvfwdrqrean.supabase.co';
+  const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImtwdGFwZnlxeXl2ZndkcnFyZWFuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODE2NDAxMDMsImV4cCI6MjA5NzIxNjEwM30.hV8RO0eWnIsKVf6xoOQCpuDwKDoGF8Cd438mho8EK4Y';
+  const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
-let usuario = null;
-let modoLeitura = false;
+  let usuario = null;
+  let modoLeitura = false;
 
-async function fazerLogin() {
-  const email = document.getElementById('loginEmail').value.trim();
-  const senha = document.getElementById('loginSenha').value;
-  if (!email || !senha) { alert('Preencha email e senha!'); return; }
-  
-  const { data, error } = await supabase.auth.signInWithPassword({ email, password: senha });
-  if (error) { alert('Erro no login: ' + error.message); return; }
-  
-  usuario = data.user;
-  iniciarApp(false);
-}
+  async function fazerLogin() {
+    const email = document.getElementById('loginEmail').value.trim();
+    const senha = document.getElementById('loginSenha').value;
+    if (!email || !senha) { alert('Preencha email e senha!'); return; }
 
-function acessarSomenteLeitura() {
-  modoLeitura = true;
-  iniciarApp(true);
-}
+    const { data, error } = await supabase.auth.signInWithPassword({ email, password: senha });
+    if (error) { alert('Erro no login: ' + error.message); return; }
 
-function iniciarApp(somenteLeitura) {
-  document.getElementById('loginModal').classList.remove('show');
-  document.getElementById('app').classList.add('show');
-  
-  if (!somenteLeitura && usuario) {
-    document.getElementById('userInfo').style.display = 'block';
-    document.getElementById('userEmail').textContent = usuario.email;
-    document.getElementById('cardCadastro').style.display = 'block';
-    document.getElementById('cardPontos').style.display = 'block';
-  }
-  
-  renderizar();
-}
-
-async function logout() {
-  await supabase.auth.signOut();
-  location.reload();
-}
-
-async function cadastrarDupla() {
-  const nome = document.getElementById('nomeDupla').value.trim();
-  const turma = document.getElementById('turma').value.trim();
-  if (!nome) { alert('Digite o nome da dupla!'); return; }
-  
-  const { error } = await supabase.from('duplas').insert({ nome, turma: turma || 'Geral', pontos: 0 });
-  if (error) { alert('Erro ao cadastrar: ' + error.message); return; }
-  
-  document.getElementById('nomeDupla').value = '';
-  document.getElementById('turma').value = '';
-  renderizar();
-}
-
-async function registrarPontos() {
-  const id = parseInt(document.getElementById('selectDupla').value);
-  const pts = parseInt(document.getElementById('qtdPontos').value);
-  const ativ = document.getElementById('atividade').value.trim();
-  if (!id) { alert('Selecione uma dupla!'); return; }
-  if (!pts || pts < 1) { alert('Informe a quantidade de estrelinhas!'); return; }
-  
-  const { data: dupla } = await supabase.from('duplas').select('*').eq('id', id).single();
-  if (!dupla) return;
-  
-  await supabase.from('duplas').update({ pontos: dupla.pontos + pts }).eq('id', id);
-  await supabase.from('lancamentos').insert({
-    dupla_id: id,
-    dupla_nome: dupla.nome,
-    pts,
-    atividade: ativ || 'Atividade do domingo',
-    data: new Date().toLocaleDateString('pt-BR')
-  });
-  
-  document.getElementById('selectDupla').value = '';
-  document.getElementById('qtdPontos').value = '';
-  document.getElementById('atividade').value = '';
-  renderizar();
-}
-
-async function remover(id) {
-  if (!confirm('Remover esta dupla?')) return;
-  await supabase.from('duplas').delete().eq('id', id);
-  renderizar();
-}
-
-async function renderizar() {
-  const { data: duplas } = await supabase.from('duplas').select('*').order('pontos', { ascending: false });
-  const { data: lancamentos } = await supabase.from('lancamentos').select('*').order('created_at', { ascending: false }).limit(50);
-  
-  // Stats
-  const domingos = new Set((lancamentos || []).map(h => h.data)).size;
-  document.getElementById('totalDuplas').textContent = (duplas || []).length;
-  document.getElementById('totalPontos').textContent = (duplas || []).reduce((s, d) => s + d.pontos, 0);
-  document.getElementById('totalDomingos').textContent = domingos;
-
-  // Select
-  const sel = document.getElementById('selectDupla');
-  sel.innerHTML = '<option value="">Selecione a dupla...</option>';
-  (duplas || []).forEach(d => sel.innerHTML += `<option value="${d.id}">${d.nome} (${d.turma})</option>`);
-
-  // Ranking
-  const rank = document.getElementById('ranking');
-  if (!duplas || duplas.length === 0) { rank.innerHTML = '<li class="empty">Nenhuma dupla cadastrada ainda.</li>'; }
-  else {
-    const medalhas = ['🥇', '🥈', '🥉'];
-    rank.innerHTML = duplas.map((d, i) => {
-      const cls = i === 0 ? 'top1' : i === 1 ? 'top2' : i === 2 ? 'top3' : '';
-      const pos = i < 3 ? medalhas[i] : `${i+1}º`;
-      const estrelas = '⭐'.repeat(Math.min(d.pontos, 10)) + (d.pontos > 10 ? ` +${d.pontos - 10}` : '');
-      const btnRemover = modoLeitura ? '' : `<button class="btn-danger" onclick="remover(${d.id})">✕</button>`;
-      return `<li class="${cls}">
-        <span class="pos">${pos}</span>
-        <div class="info">
-          <div class="nome">${d.nome}</div>
-          <span class="turma-badge">${d.turma}</span>
-        </div>
-        <div class="estrelas">${estrelas}</div>
-        <div class="pts">${d.pontos} pts</div>
-        ${btnRemover}
-      </li>`;
-    }).join('');
+    usuario = data.user;
+    iniciarApp(false);
   }
 
-  // Histórico
-  const hist = document.getElementById('historico');
-  if (!lancamentos || lancamentos.length === 0) { hist.innerHTML = '<div class="empty">Nenhum lançamento ainda.</div>'; }
-  else {
-    hist.innerHTML = lancamentos.map(h => `
-      <div class="hist-item">
-        <span class="hist-nome">${h.dupla_nome}</span>
-        <span>${h.atividade}</span>
-        <span class="hist-pts">+${h.pts} ⭐</span>
-        <span class="hist-data">${h.data}</span>
-      </div>`).join('');
+  function acessarSomenteLeitura() {
+    modoLeitura = true;
+    iniciarApp(true);
   }
-}
+
+  function iniciarApp(somenteLeitura) {
+    document.getElementById('loginModal').classList.remove('show');
+    document.getElementById('app').classList.add('show');
+
+    if (!somenteLeitura && usuario) {
+      document.getElementById('userInfo').style.display = 'block';
+      document.getElementById('userEmail').textContent = usuario.email;
+      document.getElementById('cardCadastro').style.display = 'block';
+      document.getElementById('cardPontos').style.display = 'block';
+    }
+
+    renderizar();
+  }
+
+  async function logout() {
+    await supabase.auth.signOut();
+    location.reload();
+  }
+
+  async function cadastrarDupla() {
+    // CORREÇÃO 2: guard de permissão adicionado
+    if (modoLeitura || !usuario) { alert('Sem permissão! Faça login como professor.'); return; }
+
+    const nome = document.getElementById('nomeDupla').value.trim();
+    const turma = document.getElementById('turma').value.trim();
+    if (!nome) { alert('Digite o nome da dupla!'); return; }
+
+    const { error } = await supabase.from('duplas').insert({ nome, turma: turma || 'Geral', pontos: 0 });
+    if (error) { alert('Erro ao cadastrar: ' + error.message); return; }
+
+    document.getElementById('nomeDupla').value = '';
+    document.getElementById('turma').value = '';
+    renderizar();
+  }
+
+  async function registrarPontos() {
+    // CORREÇÃO 2: guard de permissão adicionado
+    if (modoLeitura || !usuario) { alert('Sem permissão! Faça login como professor.'); return; }
+
+    const id = parseInt(document.getElementById('selectDupla').value);
+    const pts = parseInt(document.getElementById('qtdPontos').value);
+    const ativ = document.getElementById('atividade').value.trim();
+    if (!id) { alert('Selecione uma dupla!'); return; }
+    if (!pts || pts < 1) { alert('Informe a quantidade de estrelinhas!'); return; }
+
+    const { data: dupla } = await supabase.from('duplas').select('*').eq('id', id).single();
+    if (!dupla) return;
+
+    await supabase.from('duplas').update({ pontos: dupla.pontos + pts }).eq('id', id);
+    await supabase.from('lancamentos').insert({
+      dupla_id: id,
+      dupla_nome: dupla.nome,
+      pts,
+      atividade: ativ || 'Atividade do domingo',
+      data: new Date().toLocaleDateString('pt-BR')
+    });
+
+    document.getElementById('selectDupla').value = '';
+    document.getElementById('qtdPontos').value = '';
+    document.getElementById('atividade').value = '';
+    renderizar();
+  }
+
+  async function remover(id) {
+    // CORREÇÃO 3: guard de permissão adicionado
+    if (modoLeitura || !usuario) { alert('Sem permissão! Faça login como professor.'); return; }
+    if (!confirm('Remover esta dupla?')) return;
+
+    await supabase.from('duplas').delete().eq('id', id);
+    renderizar();
+  }
+
+  async function renderizar() {
+    const { data: duplas } = await supabase.from('duplas').select('*').order('pontos', { ascending: false });
+    const { data: lancamentos } = await supabase.from('lancamentos').select('*').order('created_at', { ascending: false }).limit(50);
+
+    // Stats
+    const domingos = new Set((lancamentos || []).map(h => h.data)).size;
+    document.getElementById('totalDuplas').textContent = (duplas || []).length;
+    document.getElementById('totalPontos').textContent = (duplas || []).reduce((s, d) => s + d.pontos, 0);
+    document.getElementById('totalDomingos').textContent = domingos;
+
+    // Select
+    const sel = document.getElementById('selectDupla');
+    sel.innerHTML = '<option value="">Selecione a dupla...</option>';
+    (duplas || []).forEach(d => sel.innerHTML += `<option value="${d.id}">${d.nome} (${d.turma})</option>`);
+
+    // Ranking
+    const rank = document.getElementById('ranking');
+    if (!duplas || duplas.length === 0) {
+      rank.innerHTML = '<li class="empty">Nenhuma dupla cadastrada ainda.</li>';
+    } else {
+      const medalhas = ['🥇', '🥈', '🥉'];
+      rank.innerHTML = duplas.map((d, i) => {
+        const cls = i === 0 ? 'top1' : i === 1 ? 'top2' : i === 2 ? 'top3' : '';
+        const pos = i < 3 ? medalhas[i] : `${i + 1}º`;
+        const estrelas = '⭐'.repeat(Math.min(d.pontos, 10)) + (d.pontos > 10 ? ` +${d.pontos - 10}` : '');
+        // CORREÇÃO 3 (UI): botão de remover só aparece para professores logados
+        const btnRemover = (!modoLeitura && usuario) ? `<button class="btn-danger" onclick="remover(${d.id})">✕</button>` : '';
+        return `<li class="${cls}">
+          <span class="pos">${pos}</span>
+          <div class="info">
+            <div class="nome">${d.nome}</div>
+            <span class="turma-badge">${d.turma}</span>
+          </div>
+          <div class="estrelas">${estrelas}</div>
+          <div class="pts">${d.pontos} pts</div>
+          ${btnRemover}
+        </li>`;
+      }).join('');
+    }
+
+    // Histórico
+    const hist = document.getElementById('historico');
+    if (!lancamentos || lancamentos.length === 0) {
+      hist.innerHTML = '<div class="empty">Nenhum lançamento ainda.</div>';
+    } else {
+      hist.innerHTML = lancamentos.map(h => `
+        <div class="hist-item">
+          <span class="hist-nome">${h.dupla_nome}</span>
+          <span>${h.atividade}</span>
+          <span class="hist-pts">+${h.pts} ⭐</span>
+          <span class="hist-data">${h.data}</span>
+        </div>`).join('');
+    }
+  }
 </script>
 </body>
 </html>
