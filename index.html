@@ -7,58 +7,184 @@
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body { font-family: 'Segoe UI', sans-serif; background: #0f172a; color: #e2e8f0; min-height: 100vh; }
-    header { background: linear-gradient(135deg, #1e40af, #7c3aed); padding: 24px; text-align: center; position: relative; }
-    header h1 { font-size: 2rem; font-weight: 800; letter-spacing: 1px; }
-    header p { color: #bfdbfe; margin-top: 4px; }
-    .user-info { position: absolute; top: 20px; right: 20px; color: #bfdbfe; font-size: 0.85rem; }
-    .btn-logout { background: #ef4444; color: white; border: none; padding: 6px 14px; border-radius: 6px; cursor: pointer; font-size: 0.8rem; margin-left: 8px; }
-    .container { max-width: 900px; margin: 0 auto; padding: 24px 16px; }
-    .card { background: #1e293b; border-radius: 16px; padding: 24px; margin-bottom: 24px; border: 1px solid #334155; }
-    .card h2 { font-size: 1.1rem; font-weight: 700; color: #93c5fd; margin-bottom: 16px; }
-    .form-row { display: flex; gap: 12px; flex-wrap: wrap; }
-    input, select { background: #0f172a; border: 1px solid #475569; border-radius: 8px; color: #e2e8f0; padding: 10px 14px; font-size: 0.95rem; flex: 1; min-width: 140px; }
+
+    /* HEADER */
+    header {
+      background: linear-gradient(135deg, #1e40af, #7c3aed);
+      padding: 20px 16px 16px;
+      text-align: center;
+      position: relative;
+    }
+    header h1 { font-size: 1.6rem; font-weight: 800; letter-spacing: 1px; }
+    header p { color: #bfdbfe; margin-top: 4px; font-size: 0.9rem; }
+
+    /* User info no header — mobile: fica abaixo do título */
+    .user-info {
+      display: none;
+      margin-top: 12px;
+      color: #bfdbfe;
+      font-size: 0.82rem;
+      word-break: break-all;
+    }
+    .btn-logout {
+      background: #ef4444; color: white; border: none;
+      padding: 5px 12px; border-radius: 6px; cursor: pointer;
+      font-size: 0.78rem; margin-left: 6px;
+    }
+
+    /* CONTAINER */
+    .container { max-width: 900px; margin: 0 auto; padding: 16px 12px; }
+
+    /* CARDS */
+    .card {
+      background: #1e293b; border-radius: 14px;
+      padding: 18px 16px; margin-bottom: 16px;
+      border: 1px solid #334155;
+    }
+    .card h2 { font-size: 1rem; font-weight: 700; color: #93c5fd; margin-bottom: 14px; }
+
+    /* FORM — empilha em mobile */
+    .form-row { display: flex; flex-direction: column; gap: 10px; }
+    input, select {
+      background: #0f172a; border: 1px solid #475569;
+      border-radius: 8px; color: #e2e8f0;
+      padding: 11px 14px; font-size: 1rem;
+      width: 100%;
+    }
     input:focus, select:focus { outline: 2px solid #3b82f6; border-color: #3b82f6; }
-    button { padding: 10px 20px; border: none; border-radius: 8px; font-weight: 700; cursor: pointer; font-size: 0.95rem; transition: opacity 0.2s; }
+
+    button {
+      padding: 12px 20px; border: none; border-radius: 8px;
+      font-weight: 700; cursor: pointer; font-size: 1rem;
+      transition: opacity 0.2s; width: 100%;
+    }
     button:hover { opacity: 0.85; }
     button:disabled { opacity: 0.4; cursor: not-allowed; }
     .btn-primary { background: #3b82f6; color: white; }
     .btn-success { background: #10b981; color: white; }
-    .btn-danger { background: #ef4444; color: white; font-size: 0.8rem; padding: 6px 12px; }
+    .btn-danger {
+      background: #ef4444; color: white;
+      font-size: 0.8rem; padding: 6px 10px;
+      width: auto; flex-shrink: 0;
+    }
+
+    /* STATS */
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px; margin-bottom: 16px;
+    }
+    .stat-card {
+      background: #1e293b; border-radius: 12px;
+      padding: 14px 8px; text-align: center;
+      border: 1px solid #334155;
+    }
+    .stat-card .val { font-size: 1.6rem; font-weight: 900; color: #3b82f6; }
+    .stat-card .lbl { font-size: 0.72rem; color: #64748b; margin-top: 2px; }
+
+    /* RANKING */
     .ranking { list-style: none; }
-    .ranking li { display: flex; align-items: center; gap: 16px; background: #0f172a; border-radius: 12px; padding: 14px 18px; margin-bottom: 10px; border: 1px solid #334155; transition: transform 0.2s; }
-    .ranking li:hover { transform: translateX(4px); }
+    .ranking li {
+      display: flex; align-items: center; gap: 10px;
+      background: #0f172a; border-radius: 12px;
+      padding: 12px 14px; margin-bottom: 8px;
+      border: 1px solid #334155;
+    }
     .ranking li.top1 { border-color: #fbbf24; background: #1c1a00; }
     .ranking li.top2 { border-color: #94a3b8; background: #111827; }
     .ranking li.top3 { border-color: #b45309; background: #1a1200; }
-    .pos { font-size: 1.5rem; font-weight: 900; min-width: 36px; text-align: center; }
+
+    .pos { font-size: 1.4rem; font-weight: 900; min-width: 32px; text-align: center; }
     .top1 .pos { color: #fbbf24; }
     .top2 .pos { color: #94a3b8; }
     .top3 .pos { color: #b45309; }
-    .info { flex: 1; }
-    .info .nome { font-weight: 700; font-size: 1rem; }
-    .info .turma { font-size: 0.8rem; color: #64748b; }
-    .estrelas { font-size: 1.2rem; letter-spacing: 2px; }
-    .pts { font-weight: 900; font-size: 1.3rem; color: #fbbf24; min-width: 48px; text-align: right; }
-    .historico { max-height: 220px; overflow-y: auto; }
-    .hist-item { display: flex; justify-content: space-between; padding: 8px 12px; border-bottom: 1px solid #1e293b; font-size: 0.88rem; }
+
+    .info { flex: 1; min-width: 0; }
+    .info .nome { font-weight: 700; font-size: 0.95rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+    /* Estrelas e pontos: empilham no mobile */
+    .ranking-right {
+      display: flex; flex-direction: column;
+      align-items: flex-end; gap: 2px; flex-shrink: 0;
+    }
+    .estrelas { font-size: 0.9rem; letter-spacing: 1px; }
+    .pts { font-weight: 900; font-size: 1.1rem; color: #fbbf24; white-space: nowrap; }
+
+    .turma-badge {
+      background: #1e3a5f; color: #93c5fd;
+      border-radius: 20px; padding: 2px 8px;
+      font-size: 0.7rem; display: inline-block; margin-top: 2px;
+    }
+
+    /* HISTÓRICO */
+    .historico { max-height: 260px; overflow-y: auto; }
+    .hist-item {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      grid-template-rows: auto auto;
+      gap: 2px 8px;
+      padding: 10px 12px;
+      border-bottom: 1px solid #1e293b;
+      font-size: 0.85rem;
+    }
     .hist-item:last-child { border-bottom: none; }
-    .hist-nome { color: #93c5fd; font-weight: 600; }
-    .hist-data { color: #475569; }
-    .hist-pts { color: #fbbf24; font-weight: 700; }
-    .empty { text-align: center; color: #475569; padding: 32px; }
-    .stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 12px; margin-bottom: 24px; }
-    .stat-card { background: #1e293b; border-radius: 12px; padding: 16px; text-align: center; border: 1px solid #334155; }
-    .stat-card .val { font-size: 2rem; font-weight: 900; color: #3b82f6; }
-    .stat-card .lbl { font-size: 0.8rem; color: #64748b; margin-top: 4px; }
-    .turma-badge { background: #1e3a5f; color: #93c5fd; border-radius: 20px; padding: 2px 10px; font-size: 0.75rem; display: inline-block; margin-top: 2px; }
-    .modal { display: none; position: fixed; z-index: 9999; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); align-items: center; justify-content: center; }
+    .hist-nome { color: #93c5fd; font-weight: 600; grid-column: 1; grid-row: 1; }
+    .hist-pts  { color: #fbbf24; font-weight: 700; grid-column: 2; grid-row: 1; text-align: right; }
+    .hist-ativ { color: #94a3b8; grid-column: 1; grid-row: 2; font-size: 0.78rem; }
+    .hist-data { color: #475569; grid-column: 2; grid-row: 2; font-size: 0.75rem; text-align: right; }
+
+    .empty { text-align: center; color: #475569; padding: 28px; }
+
+    /* MODAL */
+    .modal {
+      display: none; position: fixed; z-index: 9999;
+      left: 0; top: 0; width: 100%; height: 100%;
+      background: rgba(0,0,0,0.85);
+      align-items: center; justify-content: center;
+      padding: 16px;
+    }
     .modal.show { display: flex; }
-    .modal-content { background: #1e293b; padding: 32px; border-radius: 16px; max-width: 400px; width: 90%; border: 1px solid #334155; }
-    .modal-content h2 { color: #93c5fd; margin-bottom: 20px; }
-    .modal-content input { width: 100%; margin-bottom: 12px; }
-    .modal-content button { width: 100%; margin-top: 8px; }
+    .modal-content {
+      background: #1e293b; padding: 28px 24px;
+      border-radius: 16px; width: 100%; max-width: 400px;
+      border: 1px solid #334155;
+    }
+    .modal-content h2 { color: #93c5fd; margin-bottom: 18px; font-size: 1.1rem; }
+    .modal-content input { margin-bottom: 10px; }
+    .modal-content button { margin-top: 8px; }
+    .modal-divider { color: #475569; font-size: 0.8rem; text-align: center; margin: 14px 0 0; }
+
     #app { display: none; }
     #app.show { display: block; }
+
+    /* DESKTOP: form em linha */
+    @media (min-width: 600px) {
+      header h1 { font-size: 2rem; }
+      header p { font-size: 1rem; }
+      .user-info { margin-top: 8px; }
+
+      .form-row { flex-direction: row; flex-wrap: wrap; }
+      .form-row input, .form-row select { flex: 1; min-width: 140px; width: auto; }
+      .form-row button { width: auto; }
+
+      .hist-item {
+        display: flex; justify-content: space-between;
+        align-items: center; gap: 8px;
+        flex-wrap: nowrap;
+      }
+      .hist-nome { flex: 1; }
+      .hist-ativ { flex: 1; color: #94a3b8; font-size: 0.85rem; }
+      .hist-pts  { white-space: nowrap; }
+      .hist-data { white-space: nowrap; }
+
+      .ranking-right { flex-direction: row; align-items: center; gap: 12px; }
+      .estrelas { font-size: 1.1rem; }
+      .pts { font-size: 1.3rem; }
+    }
+
+    @media (min-width: 900px) {
+      .user-info { position: absolute; top: 20px; right: 20px; margin-top: 0; }
+    }
   </style>
 </head>
 <body>
@@ -66,11 +192,11 @@
 <div id="loginModal" class="modal show">
   <div class="modal-content">
     <h2>🔐 Login de Professor</h2>
-    <input id="loginEmail" type="email" placeholder="Email" />
-    <input id="loginSenha" type="password" placeholder="Senha" />
+    <input id="loginEmail" type="email" placeholder="Email" autocomplete="email" />
+    <input id="loginSenha" type="password" placeholder="Senha" autocomplete="current-password" />
     <button class="btn-primary" id="btnLogin">Entrar</button>
-    <p style="color: #64748b; font-size: 0.8rem; margin-top: 16px;">Visitantes podem visualizar o placar sem fazer login.</p>
-    <button class="btn-success" style="margin-top: 8px;" id="btnVerApenas">Ver apenas</button>
+    <p class="modal-divider">Visitantes podem visualizar sem fazer login.</p>
+    <button class="btn-success" id="btnVerApenas">Ver apenas</button>
   </div>
 </div>
 
@@ -78,20 +204,21 @@
   <header>
     <h1>⭐ Placar EBD</h1>
     <p>Escola Bíblica Dominical — Ranking de Duplas</p>
-    <div class="user-info" id="userInfo" style="display: none;">
+    <div class="user-info" id="userInfo">
       <span id="userEmail"></span>
       <button class="btn-logout" id="btnLogout">Sair</button>
     </div>
   </header>
+
   <div class="container">
 
     <div class="stats">
       <div class="stat-card"><div class="val" id="totalDuplas">0</div><div class="lbl">Duplas</div></div>
-      <div class="stat-card"><div class="val" id="totalPontos">0</div><div class="lbl">Pontos distribuídos</div></div>
-      <div class="stat-card"><div class="val" id="totalDomingos">0</div><div class="lbl">Domingos registrados</div></div>
+      <div class="stat-card"><div class="val" id="totalPontos">0</div><div class="lbl">Pts distribuídos</div></div>
+      <div class="stat-card"><div class="val" id="totalDomingos">0</div><div class="lbl">Domingos</div></div>
     </div>
 
-    <div class="card" id="cardCadastro" style="display: none;">
+    <div class="card" id="cardCadastro" style="display:none;">
       <h2>➕ Cadastrar Dupla</h2>
       <div class="form-row">
         <input id="nomeDupla" type="text" placeholder="Nome da dupla (ex: João e Maria)" />
@@ -100,11 +227,11 @@
       </div>
     </div>
 
-    <div class="card" id="cardPontos" style="display: none;">
+    <div class="card" id="cardPontos" style="display:none;">
       <h2>🌟 Registrar Pontos</h2>
       <div class="form-row">
         <select id="selectDupla"><option value="">Selecione a dupla...</option></select>
-        <input id="qtdPontos" type="number" min="1" max="10" placeholder="Estrelinhas (1-10)" />
+        <input id="qtdPontos" type="number" min="1" max="10" placeholder="Estrelinhas (1–10)" />
         <input id="atividade" type="text" placeholder="Atividade / motivo" />
         <button class="btn-success" id="btnRegistrar">Adicionar ⭐</button>
       </div>
@@ -123,165 +250,154 @@
   </div>
 </div>
 
-<!-- Supabase carregado ANTES do script principal -->
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
-  // Tudo dentro do DOMContentLoaded garante que a lib já foi carregada
-  document.addEventListener('DOMContentLoaded', function () {
+document.addEventListener('DOMContentLoaded', function () {
 
-    const SUPABASE_URL = 'https://kptapfyqyyvfwdrqrean.supabase.co';
-    const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImtwdGFwZnlxeXl2ZndkcnFyZWFuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODE2NDAxMDMsImV4cCI6MjA5NzIxNjEwM30.hV8RO0eWnIsKVf6xoOQCpuDwKDoGF8Cd438mho8EK4Y';
-    const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+  const SUPABASE_URL = 'https://kptapfyqyyvfwdrqrean.supabase.co';
+  const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImtwdGFwZnlxeXl2ZndkcnFyZWFuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODE2NDAxMDMsImV4cCI6MjA5NzIxNjEwM30.hV8RO0eWnIsKVf6xoOQCpuDwKDoGF8Cd438mho8EK4Y';
+  const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
-    let usuario = null;
-    let modoLeitura = false;
+  let usuario = null;
+  let modoLeitura = false;
 
-    // Eventos via addEventListener (sem onclick no HTML)
-    document.getElementById('btnLogin').addEventListener('click', fazerLogin);
-    document.getElementById('btnVerApenas').addEventListener('click', acessarSomenteLeitura);
-    document.getElementById('btnLogout').addEventListener('click', logout);
-    document.getElementById('btnCadastrar').addEventListener('click', cadastrarDupla);
-    document.getElementById('btnRegistrar').addEventListener('click', registrarPontos);
+  document.getElementById('btnLogin').addEventListener('click', fazerLogin);
+  document.getElementById('btnVerApenas').addEventListener('click', acessarSomenteLeitura);
+  document.getElementById('btnLogout').addEventListener('click', logout);
+  document.getElementById('btnCadastrar').addEventListener('click', cadastrarDupla);
+  document.getElementById('btnRegistrar').addEventListener('click', registrarPontos);
 
-    async function fazerLogin() {
-      const email = document.getElementById('loginEmail').value.trim();
-      const senha = document.getElementById('loginSenha').value;
-      if (!email || !senha) { alert('Preencha email e senha!'); return; }
+  async function fazerLogin() {
+    const email = document.getElementById('loginEmail').value.trim();
+    const senha = document.getElementById('loginSenha').value;
+    if (!email || !senha) { alert('Preencha email e senha!'); return; }
+    const { data, error } = await supabase.auth.signInWithPassword({ email, password: senha });
+    if (error) { alert('Erro no login: ' + error.message); return; }
+    usuario = data.user;
+    iniciarApp(false);
+  }
 
-      const { data, error } = await supabase.auth.signInWithPassword({ email, password: senha });
-      if (error) { alert('Erro no login: ' + error.message); return; }
+  function acessarSomenteLeitura() {
+    modoLeitura = true;
+    iniciarApp(true);
+  }
 
-      usuario = data.user;
-      iniciarApp(false);
+  function iniciarApp(somenteLeitura) {
+    document.getElementById('loginModal').classList.remove('show');
+    document.getElementById('app').classList.add('show');
+    if (!somenteLeitura && usuario) {
+      document.getElementById('userInfo').style.display = 'block';
+      document.getElementById('userEmail').textContent = usuario.email;
+      document.getElementById('cardCadastro').style.display = 'block';
+      document.getElementById('cardPontos').style.display = 'block';
+    }
+    renderizar();
+  }
+
+  async function logout() {
+    await supabase.auth.signOut();
+    location.reload();
+  }
+
+  async function cadastrarDupla() {
+    if (modoLeitura || !usuario) { alert('Sem permissão! Faça login como professor.'); return; }
+    const nome = document.getElementById('nomeDupla').value.trim();
+    const turma = document.getElementById('turma').value.trim();
+    if (!nome) { alert('Digite o nome da dupla!'); return; }
+    const { error } = await supabase.from('duplas').insert({ nome, turma: turma || 'Geral', pontos: 0 });
+    if (error) { alert('Erro ao cadastrar: ' + error.message); return; }
+    document.getElementById('nomeDupla').value = '';
+    document.getElementById('turma').value = '';
+    renderizar();
+  }
+
+  async function registrarPontos() {
+    if (modoLeitura || !usuario) { alert('Sem permissão! Faça login como professor.'); return; }
+    const id = parseInt(document.getElementById('selectDupla').value);
+    const pts = parseInt(document.getElementById('qtdPontos').value);
+    const ativ = document.getElementById('atividade').value.trim();
+    if (!id) { alert('Selecione uma dupla!'); return; }
+    if (!pts || pts < 1) { alert('Informe a quantidade de estrelinhas!'); return; }
+    const { data: dupla } = await supabase.from('duplas').select('*').eq('id', id).single();
+    if (!dupla) return;
+    await supabase.from('duplas').update({ pontos: dupla.pontos + pts }).eq('id', id);
+    await supabase.from('lancamentos').insert({
+      dupla_id: id,
+      dupla_nome: dupla.nome,
+      pts,
+      atividade: ativ || 'Atividade do domingo',
+      data: new Date().toLocaleDateString('pt-BR')
+    });
+    document.getElementById('selectDupla').value = '';
+    document.getElementById('qtdPontos').value = '';
+    document.getElementById('atividade').value = '';
+    renderizar();
+  }
+
+  async function remover(id) {
+    if (modoLeitura || !usuario) { alert('Sem permissão! Faça login como professor.'); return; }
+    if (!confirm('Remover esta dupla?')) return;
+    await supabase.from('duplas').delete().eq('id', id);
+    renderizar();
+  }
+
+  window.removerDupla = remover;
+
+  async function renderizar() {
+    const { data: duplas } = await supabase.from('duplas').select('*').order('pontos', { ascending: false });
+    const { data: lancamentos } = await supabase.from('lancamentos').select('*').order('created_at', { ascending: false }).limit(50);
+
+    const domingos = new Set((lancamentos || []).map(h => h.data)).size;
+    document.getElementById('totalDuplas').textContent = (duplas || []).length;
+    document.getElementById('totalPontos').textContent = (duplas || []).reduce((s, d) => s + d.pontos, 0);
+    document.getElementById('totalDomingos').textContent = domingos;
+
+    const sel = document.getElementById('selectDupla');
+    sel.innerHTML = '<option value="">Selecione a dupla...</option>';
+    (duplas || []).forEach(d => sel.innerHTML += `<option value="${d.id}">${d.nome} (${d.turma})</option>`);
+
+    const rank = document.getElementById('ranking');
+    if (!duplas || duplas.length === 0) {
+      rank.innerHTML = '<li class="empty">Nenhuma dupla cadastrada ainda.</li>';
+    } else {
+      const medalhas = ['🥇', '🥈', '🥉'];
+      rank.innerHTML = duplas.map((d, i) => {
+        const cls = i === 0 ? 'top1' : i === 1 ? 'top2' : i === 2 ? 'top3' : '';
+        const pos = i < 3 ? medalhas[i] : `${i + 1}º`;
+        const estrelas = '⭐'.repeat(Math.min(d.pontos, 10)) + (d.pontos > 10 ? ` +${d.pontos - 10}` : '');
+        const btnRemover = (!modoLeitura && usuario)
+          ? `<button class="btn-danger" onclick="window.removerDupla(${d.id})">✕</button>`
+          : '';
+        return `<li class="${cls}">
+          <span class="pos">${pos}</span>
+          <div class="info">
+            <div class="nome">${d.nome}</div>
+            <span class="turma-badge">${d.turma}</span>
+          </div>
+          <div class="ranking-right">
+            <span class="estrelas">${estrelas}</span>
+            <span class="pts">${d.pontos} pts</span>
+          </div>
+          ${btnRemover}
+        </li>`;
+      }).join('');
     }
 
-    function acessarSomenteLeitura() {
-      modoLeitura = true;
-      iniciarApp(true);
+    const hist = document.getElementById('historico');
+    if (!lancamentos || lancamentos.length === 0) {
+      hist.innerHTML = '<div class="empty">Nenhum lançamento ainda.</div>';
+    } else {
+      hist.innerHTML = lancamentos.map(h => `
+        <div class="hist-item">
+          <span class="hist-nome">${h.dupla_nome}</span>
+          <span class="hist-pts">+${h.pts} ⭐</span>
+          <span class="hist-ativ">${h.atividade}</span>
+          <span class="hist-data">${h.data}</span>
+        </div>`).join('');
     }
+  }
 
-    function iniciarApp(somenteLeitura) {
-      document.getElementById('loginModal').classList.remove('show');
-      document.getElementById('app').classList.add('show');
-
-      if (!somenteLeitura && usuario) {
-        document.getElementById('userInfo').style.display = 'block';
-        document.getElementById('userEmail').textContent = usuario.email;
-        document.getElementById('cardCadastro').style.display = 'block';
-        document.getElementById('cardPontos').style.display = 'block';
-      }
-
-      renderizar();
-    }
-
-    async function logout() {
-      await supabase.auth.signOut();
-      location.reload();
-    }
-
-    async function cadastrarDupla() {
-      if (modoLeitura || !usuario) { alert('Sem permissão! Faça login como professor.'); return; }
-
-      const nome = document.getElementById('nomeDupla').value.trim();
-      const turma = document.getElementById('turma').value.trim();
-      if (!nome) { alert('Digite o nome da dupla!'); return; }
-
-      const { error } = await supabase.from('duplas').insert({ nome, turma: turma || 'Geral', pontos: 0 });
-      if (error) { alert('Erro ao cadastrar: ' + error.message); return; }
-
-      document.getElementById('nomeDupla').value = '';
-      document.getElementById('turma').value = '';
-      renderizar();
-    }
-
-    async function registrarPontos() {
-      if (modoLeitura || !usuario) { alert('Sem permissão! Faça login como professor.'); return; }
-
-      const id = parseInt(document.getElementById('selectDupla').value);
-      const pts = parseInt(document.getElementById('qtdPontos').value);
-      const ativ = document.getElementById('atividade').value.trim();
-      if (!id) { alert('Selecione uma dupla!'); return; }
-      if (!pts || pts < 1) { alert('Informe a quantidade de estrelinhas!'); return; }
-
-      const { data: dupla } = await supabase.from('duplas').select('*').eq('id', id).single();
-      if (!dupla) return;
-
-      await supabase.from('duplas').update({ pontos: dupla.pontos + pts }).eq('id', id);
-      await supabase.from('lancamentos').insert({
-        dupla_id: id,
-        dupla_nome: dupla.nome,
-        pts,
-        atividade: ativ || 'Atividade do domingo',
-        data: new Date().toLocaleDateString('pt-BR')
-      });
-
-      document.getElementById('selectDupla').value = '';
-      document.getElementById('qtdPontos').value = '';
-      document.getElementById('atividade').value = '';
-      renderizar();
-    }
-
-    async function remover(id) {
-      if (modoLeitura || !usuario) { alert('Sem permissão! Faça login como professor.'); return; }
-      if (!confirm('Remover esta dupla?')) return;
-      await supabase.from('duplas').delete().eq('id', id);
-      renderizar();
-    }
-
-    // Expõe remover globalmente pois é chamada via onclick dinâmico no innerHTML
-    window.removerDupla = remover;
-
-    async function renderizar() {
-      const { data: duplas } = await supabase.from('duplas').select('*').order('pontos', { ascending: false });
-      const { data: lancamentos } = await supabase.from('lancamentos').select('*').order('created_at', { ascending: false }).limit(50);
-
-      const domingos = new Set((lancamentos || []).map(h => h.data)).size;
-      document.getElementById('totalDuplas').textContent = (duplas || []).length;
-      document.getElementById('totalPontos').textContent = (duplas || []).reduce((s, d) => s + d.pontos, 0);
-      document.getElementById('totalDomingos').textContent = domingos;
-
-      const sel = document.getElementById('selectDupla');
-      sel.innerHTML = '<option value="">Selecione a dupla...</option>';
-      (duplas || []).forEach(d => sel.innerHTML += `<option value="${d.id}">${d.nome} (${d.turma})</option>`);
-
-      const rank = document.getElementById('ranking');
-      if (!duplas || duplas.length === 0) {
-        rank.innerHTML = '<li class="empty">Nenhuma dupla cadastrada ainda.</li>';
-      } else {
-        const medalhas = ['🥇', '🥈', '🥉'];
-        rank.innerHTML = duplas.map((d, i) => {
-          const cls = i === 0 ? 'top1' : i === 1 ? 'top2' : i === 2 ? 'top3' : '';
-          const pos = i < 3 ? medalhas[i] : `${i + 1}º`;
-          const estrelas = '⭐'.repeat(Math.min(d.pontos, 10)) + (d.pontos > 10 ? ` +${d.pontos - 10}` : '');
-          const btnRemover = (!modoLeitura && usuario) ? `<button class="btn-danger" onclick="window.removerDupla(${d.id})">✕</button>` : '';
-          return `<li class="${cls}">
-            <span class="pos">${pos}</span>
-            <div class="info">
-              <div class="nome">${d.nome}</div>
-              <span class="turma-badge">${d.turma}</span>
-            </div>
-            <div class="estrelas">${estrelas}</div>
-            <div class="pts">${d.pontos} pts</div>
-            ${btnRemover}
-          </li>`;
-        }).join('');
-      }
-
-      const hist = document.getElementById('historico');
-      if (!lancamentos || lancamentos.length === 0) {
-        hist.innerHTML = '<div class="empty">Nenhum lançamento ainda.</div>';
-      } else {
-        hist.innerHTML = lancamentos.map(h => `
-          <div class="hist-item">
-            <span class="hist-nome">${h.dupla_nome}</span>
-            <span>${h.atividade}</span>
-            <span class="hist-pts">+${h.pts} ⭐</span>
-            <span class="hist-data">${h.data}</span>
-          </div>`).join('');
-      }
-    }
-
-  }); // fim DOMContentLoaded
+}); // fim DOMContentLoaded
 </script>
 </body>
 </html>
