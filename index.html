@@ -107,7 +107,6 @@
       display: flex; flex-direction: column;
       align-items: flex-end; gap: 2px; flex-shrink: 0;
     }
-    .estrelas { font-size: 0.9rem; letter-spacing: 1px; }
     .pts { font-weight: 900; font-size: 1.1rem; color: #fbbf24; white-space: nowrap; }
 
     .turma-badge {
@@ -177,8 +176,7 @@
       .hist-pts  { white-space: nowrap; }
       .hist-data { white-space: nowrap; }
 
-      .ranking-right { flex-direction: row; align-items: center; gap: 12px; }
-      .estrelas { font-size: 1.1rem; }
+      .ranking-right { flex-direction: row; align-items: center; }
       .pts { font-size: 1.3rem; }
     }
 
@@ -364,7 +362,6 @@ document.addEventListener('DOMContentLoaded', function () {
       rank.innerHTML = duplas.map((d, i) => {
         const cls = i === 0 ? 'top1' : i === 1 ? 'top2' : i === 2 ? 'top3' : '';
         const pos = i < 3 ? medalhas[i] : `${i + 1}º`;
-        const estrelas = '⭐'.repeat(Math.min(d.pontos, 10)) + (d.pontos > 10 ? ` +${d.pontos - 10}` : '');
         const btnRemover = (!modoLeitura && usuario)
           ? `<button class="btn-danger" onclick="window.removerDupla(${d.id})">✕</button>`
           : '';
@@ -375,8 +372,7 @@ document.addEventListener('DOMContentLoaded', function () {
             <span class="turma-badge">${d.turma}</span>
           </div>
           <div class="ranking-right">
-            <span class="estrelas">${estrelas}</span>
-            <span class="pts">${d.pontos} pts</span>
+            <span class="pts">⭐ ${d.pontos} pts</span>
           </div>
           ${btnRemover}
         </li>`;
