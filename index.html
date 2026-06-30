@@ -8,9 +8,8 @@
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body { font-family: 'Segoe UI', sans-serif; background: #0f172a; color: #e2e8f0; min-height: 100vh; }
 
-    /* HEADER */
     header {
-      background: linear-gradient(135deg, #1e40af, #7c3aed);
+      background: #d96100;
       padding: 20px 16px 16px;
       text-align: center;
       position: relative;
@@ -18,7 +17,6 @@
     header h1 { font-size: 1.6rem; font-weight: 800; letter-spacing: 1px; }
     header p { color: #bfdbfe; margin-top: 4px; font-size: 0.9rem; }
 
-    /* User info no header — mobile: fica abaixo do título */
     .user-info {
       display: none;
       margin-top: 12px;
@@ -32,10 +30,8 @@
       font-size: 0.78rem; margin-left: 6px;
     }
 
-    /* CONTAINER */
     .container { max-width: 900px; margin: 0 auto; padding: 16px 12px; }
 
-    /* CARDS */
     .card {
       background: #1e293b; border-radius: 14px;
       padding: 18px 16px; margin-bottom: 16px;
@@ -43,7 +39,6 @@
     }
     .card h2 { font-size: 1rem; font-weight: 700; color: #93c5fd; margin-bottom: 14px; }
 
-    /* FORM — empilha em mobile */
     .form-row { display: flex; flex-direction: column; gap: 10px; }
     input, select {
       background: #0f172a; border: 1px solid #475569;
@@ -60,15 +55,16 @@
     }
     button:hover { opacity: 0.85; }
     button:disabled { opacity: 0.4; cursor: not-allowed; }
+
     .btn-primary { background: #3b82f6; color: white; }
     .btn-success { background: #10b981; color: white; }
+    .btn-warning { background: #f59e0b; color: white; }
     .btn-danger {
       background: #ef4444; color: white;
       font-size: 0.8rem; padding: 6px 10px;
       width: auto; flex-shrink: 0;
     }
 
-    /* STATS */
     .stats {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
@@ -82,7 +78,6 @@
     .stat-card .val { font-size: 1.6rem; font-weight: 900; color: #3b82f6; }
     .stat-card .lbl { font-size: 0.72rem; color: #64748b; margin-top: 2px; }
 
-    /* RANKING */
     .ranking { list-style: none; }
     .ranking li {
       display: flex; align-items: center; gap: 10px;
@@ -102,7 +97,6 @@
     .info { flex: 1; min-width: 0; }
     .info .nome { font-weight: 700; font-size: 0.95rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 
-    /* Estrelas e pontos: empilham no mobile */
     .ranking-right {
       display: flex; flex-direction: column;
       align-items: flex-end; gap: 2px; flex-shrink: 0;
@@ -115,7 +109,6 @@
       font-size: 0.7rem; display: inline-block; margin-top: 2px;
     }
 
-    /* HISTÓRICO */
     .historico { max-height: 260px; overflow-y: auto; }
     .hist-item {
       display: grid;
@@ -128,13 +121,13 @@
     }
     .hist-item:last-child { border-bottom: none; }
     .hist-nome { color: #93c5fd; font-weight: 600; grid-column: 1; grid-row: 1; }
-    .hist-pts  { color: #fbbf24; font-weight: 700; grid-column: 2; grid-row: 1; text-align: right; }
+    .hist-pts { color: #fbbf24; font-weight: 700; grid-column: 2; grid-row: 1; text-align: right; }
+    .hist-pts-negativo { color: #f87171; font-weight: 700; grid-column: 2; grid-row: 1; text-align: right; }
     .hist-ativ { color: #94a3b8; grid-column: 1; grid-row: 2; font-size: 0.78rem; }
     .hist-data { color: #475569; grid-column: 2; grid-row: 2; font-size: 0.75rem; text-align: right; }
 
     .empty { text-align: center; color: #475569; padding: 28px; }
 
-    /* MODAL */
     .modal {
       display: none; position: fixed; z-index: 9999;
       left: 0; top: 0; width: 100%; height: 100%;
@@ -156,7 +149,6 @@
     #app { display: none; }
     #app.show { display: block; }
 
-    /* DESKTOP: form em linha */
     @media (min-width: 600px) {
       header h1 { font-size: 2rem; }
       header p { font-size: 1rem; }
@@ -173,7 +165,7 @@
       }
       .hist-nome { flex: 1; }
       .hist-ativ { flex: 1; color: #94a3b8; font-size: 0.85rem; }
-      .hist-pts  { white-space: nowrap; }
+      .hist-pts, .hist-pts-negativo { white-space: nowrap; }
       .hist-data { white-space: nowrap; }
 
       .ranking-right { flex-direction: row; align-items: center; }
@@ -200,6 +192,7 @@
 
 <div id="app">
   <header>
+    <img src="LOGO GFC.png" alt="Logo GFC" style="height: 70px; margin-bottom: 8px; display: block; margin-left: auto; margin-right: auto;" />
     <h1>⭐ Placar EBD</h1>
     <p>Escola Bíblica Dominical — Ranking de Duplas</p>
     <div class="user-info" id="userInfo">
@@ -232,6 +225,7 @@
         <input id="qtdPontos" type="number" min="1" max="10" placeholder="Estrelinhas (1–10)" />
         <input id="atividade" type="text" placeholder="Atividade / motivo" />
         <button class="btn-success" id="btnRegistrar">Adicionar ⭐</button>
+        <button class="btn-warning" id="btnTirarPontos">Tirar ⭐</button>
       </div>
     </div>
 
@@ -264,6 +258,7 @@ document.addEventListener('DOMContentLoaded', function () {
   document.getElementById('btnLogout').addEventListener('click', logout);
   document.getElementById('btnCadastrar').addEventListener('click', cadastrarDupla);
   document.getElementById('btnRegistrar').addEventListener('click', registrarPontos);
+  document.getElementById('btnTirarPontos').addEventListener('click', tirarPontos);
 
   async function fazerLogin() {
     const email = document.getElementById('loginEmail').value.trim();
@@ -316,8 +311,10 @@ document.addEventListener('DOMContentLoaded', function () {
     const ativ = document.getElementById('atividade').value.trim();
     if (!id) { alert('Selecione uma dupla!'); return; }
     if (!pts || pts < 1) { alert('Informe a quantidade de estrelinhas!'); return; }
+
     const { data: dupla } = await supabase.from('duplas').select('*').eq('id', id).single();
     if (!dupla) return;
+
     await supabase.from('duplas').update({ pontos: dupla.pontos + pts }).eq('id', id);
     await supabase.from('lancamentos').insert({
       dupla_id: id,
@@ -326,6 +323,41 @@ document.addEventListener('DOMContentLoaded', function () {
       atividade: ativ || 'Atividade do domingo',
       data: new Date().toLocaleDateString('pt-BR')
     });
+
+    document.getElementById('selectDupla').value = '';
+    document.getElementById('qtdPontos').value = '';
+    document.getElementById('atividade').value = '';
+    renderizar();
+  }
+
+  async function tirarPontos() {
+    if (modoLeitura || !usuario) { alert('Sem permissão! Faça login como professor.'); return; }
+    const id = parseInt(document.getElementById('selectDupla').value);
+    const pts = parseInt(document.getElementById('qtdPontos').value);
+    const ativ = document.getElementById('atividade').value.trim();
+    if (!id) { alert('Selecione uma dupla!'); return; }
+    if (!pts || pts < 1) { alert('Informe a quantidade de estrelinhas!'); return; }
+
+    const { data: dupla } = await supabase.from('duplas').select('*').eq('id', id).single();
+    if (!dupla) return;
+
+    const novosPontos = Math.max(0, dupla.pontos - pts);
+    const pontosRemovidos = dupla.pontos - novosPontos;
+
+    if (pontosRemovidos === 0) {
+      alert('Essa dupla já está com 0 pontos.');
+      return;
+    }
+
+    await supabase.from('duplas').update({ pontos: novosPontos }).eq('id', id);
+    await supabase.from('lancamentos').insert({
+      dupla_id: id,
+      dupla_nome: dupla.nome,
+      pts: -pontosRemovidos,
+      atividade: ativ || 'Remoção de pontos',
+      data: new Date().toLocaleDateString('pt-BR')
+    });
+
     document.getElementById('selectDupla').value = '';
     document.getElementById('qtdPontos').value = '';
     document.getElementById('atividade').value = '';
@@ -383,17 +415,21 @@ document.addEventListener('DOMContentLoaded', function () {
     if (!lancamentos || lancamentos.length === 0) {
       hist.innerHTML = '<div class="empty">Nenhum lançamento ainda.</div>';
     } else {
-      hist.innerHTML = lancamentos.map(h => `
-        <div class="hist-item">
-          <span class="hist-nome">${h.dupla_nome}</span>
-          <span class="hist-pts">+${h.pts} ⭐</span>
-          <span class="hist-ativ">${h.atividade}</span>
-          <span class="hist-data">${h.data}</span>
-        </div>`).join('');
+      hist.innerHTML = lancamentos.map(h => {
+        const sinal = h.pts >= 0 ? '+' : '';
+        const classePts = h.pts < 0 ? 'hist-pts-negativo' : 'hist-pts';
+        return `
+          <div class="hist-item">
+            <span class="hist-nome">${h.dupla_nome}</span>
+            <span class="${classePts}">${sinal}${h.pts} ⭐</span>
+            <span class="hist-ativ">${h.atividade}</span>
+            <span class="hist-data">${h.data}</span>
+          </div>`;
+      }).join('');
     }
   }
 
-}); // fim DOMContentLoaded
+});
 </script>
 </body>
 </html>
